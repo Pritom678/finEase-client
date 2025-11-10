@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { Link } from "react-router";
 import financeImg from "../assets/Business-and-financial-logo-design-template-isolated-on-transparent-background-PNG-removebg-preview.png";
+import { AuthContext } from "../context/AuthContext";
+import { IoLogOut } from "react-icons/io5";
 
 const Header = () => {
   const [active, setActive] = useState("home");
+  const { user, signOutUser } = use(AuthContext);
   const navLink = (
     <>
       <li
@@ -83,26 +86,74 @@ const Header = () => {
         <ul className="menu menu-horizontal px-1 gap-2">{navLink}</ul>
       </div>
       <div className="navbar-end mr-3 gap-1">
-        <Link
-          to="/login"
-          onClick={() => setActive("login")}
-          className={`btn p-4 border-0 rounded-sm hover:bg-secondary transition-all duration-300 ease-in-out
+        {user ? (
+          <div className="dropdown dropdown-end z-50">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-9 border-2 border-gray-300 rounded-full">
+                <img
+                  alt="Tailwind CSS Navbar component"
+                  referrerPolicy="no-referrer"
+                  src={
+                    user.photoURL ||
+                    "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  }
+                />
+              </div>
+            </div>
+            <ul
+              tabIndex="-1"
+              className="menu  menu-sm dropdown-content bg-base-200 rounded-box z-50 mt-3 w-52 p-2 shadow"
+            >
+              <div className=" pb-3 border-b border-b-gray-200">
+                <li className="text-sm font-bold">{user.displayName}</li>
+                <li className="text-xs">{user.email}</li>
+              </div>
+
+              <input
+                // onChange={(e) => handleTheme(e.target.checked)}
+                type="checkbox"
+                defaultChecked={localStorage.getItem("theme") === "dark"}
+                className="toggle"
+              />
+
+              <li>
+                <button
+                  onClick={signOutUser}
+                  className="btn btn-xs text-left bg-linear-to-r from-primary to-secondary text-white"
+                >
+                  <IoLogOut /> Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        ) : (
+          <>
+            <Link
+              to="/login"
+              onClick={() => setActive("login")}
+              className={`btn p-4 border-0 rounded-sm hover:bg-secondary transition-all duration-300 ease-in-out
           hover:scale-105 hover:text-white ${
             active === "login" ? "bg-secondary text-white" : ""
           }`}
-        >
-          Login
-        </Link>
-        <Link
-          to="/signup"
-          onClick={() => setActive("signup")}
-          className={`btn p-4 border-0 rounded-sm hover:bg-secondary transition-all duration-300 ease-in-out
+            >
+              Login
+            </Link>
+            <Link
+              to="/signup"
+              onClick={() => setActive("signup")}
+              className={`btn p-4 border-0 rounded-sm hover:bg-secondary transition-all duration-300 ease-in-out
           hover:scale-105 hover:text-white ${
             active === "signup" ? "bg-secondary text-white" : ""
           }`}
-        >
-          SignUp
-        </Link>
+            >
+              SignUp
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );

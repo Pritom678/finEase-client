@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 const Register = () => {
   const { createUser, updateUserProfile, signInWithGoogle } = use(AuthContext);
   const navigate = useNavigate();
+  const [passwordError, setPasswordError] = useState("");
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -23,6 +24,7 @@ const Register = () => {
         console.log(result.user);
         updateUserProfile(name, photo);
         toast.success("User created successfully!", { id: "create-user" });
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
@@ -44,6 +46,22 @@ const Register = () => {
       });
   };
 
+  const handlePasswordError = (e) => {
+    const password = e.target.value;
+    const uppercaseRegex = /[A-Z]/;
+    const lowercaseRegex = /[a-z]/;
+
+    if (password.length < 6) {
+      setPasswordError("At least 6 characters required");
+    } else if (!uppercaseRegex.test(password)) {
+      setPasswordError("Must include an uppercase letter");
+    } else if (!lowercaseRegex.test(password)) {
+      setPasswordError("Must include an lowercase letter");
+    } else {
+      setPasswordError("");
+    }
+  };
+
   return (
     <div className="min-h-screen flex justify-center items-center bg-near my-10">
       <div className="bg-base-200 text-near p-8 rounded-2xl w-[380px] shadow-lg border border-gray-300">
@@ -55,7 +73,10 @@ const Register = () => {
         </p>
 
         {/* Google Button */}
-        <button onClick={handleGoogleSignIn} className="btn btn-outline w-full flex items-center gap-2 border-secondary hover:bg-secondary">
+        <button
+          onClick={handleGoogleSignIn}
+          className="btn btn-outline w-full flex items-center gap-2 border-secondary hover:bg-secondary"
+        >
           <FcGoogle className="text-xl" /> Sign up with Google
         </button>
 
@@ -113,9 +134,13 @@ const Register = () => {
             <input
               type="password"
               name="password"
+              onChange={handlePasswordError}
               placeholder="Enter your Password"
               className="input input-bordered w-full bg-base-100 border-secondary text-near placeholder-gray-500"
             />
+            {passwordError && (
+              <p className="text-red-500 text-xs mt-1">{passwordError}</p>
+            )}
           </div>
 
           {/* Sign Up Button */}

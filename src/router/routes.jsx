@@ -23,6 +23,7 @@ export const router = createBrowserRouter([
       {
         path: "/my-transaction",
         element: <MyTransaction />,
+        loader: () => fetch("http://localhost:3000/my-transactions"),
       },
       {
         path: "/reports",
