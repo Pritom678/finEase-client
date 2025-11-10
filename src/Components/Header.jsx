@@ -1,24 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router";
 import financeImg from "../assets/Business-and-financial-logo-design-template-isolated-on-transparent-background-PNG-removebg-preview.png";
 
 const Header = () => {
+  const [active, setActive] = useState("home");
   const navLink = (
     <>
-      <li className="rounded-sm transition-all duration-200 ease-in-out
-    hover:scale-105 hover:bg-secondary  ">
+      <li
+        onClick={() => setActive("home")}
+        className={`rounded-sm transition-all duration-200 ease-in-out
+    hover:scale-105 hover:bg-secondary hover:text-white active:scale-95  ${
+      active === "home" ? "bg-secondary text-white" : ""
+    }`}
+      >
         <Link to="/home">Home</Link>
       </li>
-      <li className="rounded-sm transition-all duration-200 ease-in-out
-    hover:scale-105 hover:bg-secondary  ">
+      <li
+        onClick={() => setActive("addTransaction")}
+        className={`rounded-sm transition-all duration-200 ease-in-out
+    hover:scale-105 hover:bg-secondary hover:text-white active:scale-95 ${
+      active === "addTransaction" ? "bg-secondary text-white" : ""
+    }`}
+      >
         <Link to="/add-transaction">Add Transaction</Link>
       </li>
-      <li className="rounded-sm transition-all duration-200 ease-in-out
-    hover:scale-105 hover:bg-secondary  ">
+      <li
+        onClick={() => setActive("myTransaction")}
+        className={`rounded-sm transition-all duration-200 ease-in-out
+    hover:scale-105 hover:bg-secondary hover:text-white active:scale-95 ${
+      active === "myTransaction" ? "bg-secondary text-white" : ""
+    }`}
+      >
         <Link to="/my-transaction">My Transaction</Link>
       </li>
-      <li className="rounded-sm transition-all duration-200 ease-in-out
-    hover:scale-105 hover:bg-secondary  ">
+      <li
+        onClick={() => setActive("reports")}
+        className={`rounded-sm transition-all duration-200 ease-in-out
+    hover:scale-105 hover:bg-secondary hover:text-white active:scale-95 ${
+      active === "reports" ? "bg-secondary text-white" : ""
+    }`}
+      >
         <Link to="/reports">Reports</Link>
       </li>
     </>
@@ -46,7 +67,7 @@ const Header = () => {
           </div>
           <ul
             tabIndex="-1"
-            className="menu menu-sm dropdown-content bg-base-200 rounded-box z-1 mt-3 w-52 p-2 shadow text-near "
+            className="menu menu-sm dropdown-content bg-base-200 rounded-box z-1 mt-3 w-52 p-2 shadow text-near gap-1"
           >
             {navLink}
           </ul>
@@ -59,20 +80,26 @@ const Header = () => {
         </div>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">{navLink}</ul>
+        <ul className="menu menu-horizontal px-1 gap-1">{navLink}</ul>
       </div>
-      <div className="navbar-end mr-3">
+      <div className="navbar-end mr-3 gap-1">
         <Link
           to="/login"
-          className="btn p-4 border-0 rounded-sm hover:bg-secondary transition-all duration-300 ease-in-out
-          hover:scale-105"
+          onClick={() => setActive("login")}
+          className={`btn p-4 border-0 rounded-sm hover:bg-secondary transition-all duration-300 ease-in-out
+          hover:scale-105 hover:text-white ${
+            active === "login" ? "bg-secondary text-white" : ""
+          }`}
         >
           Login
         </Link>
         <Link
           to="/signup"
-          className="btn p-4 border-0 rounded-sm hover:bg-secondary     transition-all duration-300 ease-in-out
-          hover:scale-105"
+          onClick={() => setActive("signup")}
+          className={`btn p-4 border-0 rounded-sm hover:bg-secondary transition-all duration-300 ease-in-out
+          hover:scale-105 hover:text-white ${
+            active === "signup" ? "bg-secondary text-white" : ""
+          }`}
         >
           SignUp
         </Link>
