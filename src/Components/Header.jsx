@@ -1,12 +1,26 @@
-import React, { use, useState } from "react";
-import { Link } from "react-router";
+import React, { use, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router";
 import financeImg from "../assets/Business-and-financial-logo-design-template-isolated-on-transparent-background-PNG-removebg-preview.png";
 import { AuthContext } from "../context/AuthContext";
 import { IoLogOut } from "react-icons/io5";
+import { FaUser } from "react-icons/fa";
 
 const Header = () => {
-  const [active, setActive] = useState("home");
   const { user, signOutUser } = use(AuthContext);
+  const location = useLocation();
+  const [active, setActive] = useState("");
+
+  useEffect(() => {
+    if (location.pathname === "/home") setActive("home");
+    else if (location.pathname === "/add-transaction")
+      setActive("addTransaction");
+    else if (location.pathname === "/my-transaction")
+      setActive("myTransaction");
+    else if (location.pathname === "/reports") setActive("reports");
+    else if (location.pathname === "/login") setActive("login");
+    else if (location.pathname === "/signup") setActive("signup");
+  }, [location.pathname]);
+
   const navLink = (
     <>
       <li
@@ -111,6 +125,11 @@ const Header = () => {
               <div className=" pb-3 border-b border-b-gray-200">
                 <li className="text-sm font-bold">{user.displayName}</li>
                 <li className="text-xs">{user.email}</li>
+                <li className="mt-3">
+                  <Link to={"/profile"}>
+                    <FaUser /> Profile
+                  </Link>
+                </li>
               </div>
 
               <input
