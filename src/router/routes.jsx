@@ -5,7 +5,7 @@ import AddTransaction from "../pages/AddTransaction/AddTransaction";
 import MyTransaction from "../pages/MyTransaction/MyTransaction";
 import Reports from "../pages/Reports/Reports";
 import Login from "../pages/Auth/Login";
-import SignUp from "../pages/Auth/SignUp";
+import SignUp from "../pages/Auth/Register";
 
 export const router = createBrowserRouter([
   {

@@ -11,6 +11,7 @@
   default: true;
   --color-primary: #3b82f6;
   --color-secondary: #6ee7b7;
+  --color-base-100: #FAF9F6;
   --color-base-200: #F0F9FF;
   --color-accent: #f87171;
   --color-near: #0F172A;

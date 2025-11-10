@@ -80,7 +80,7 @@ const Header = () => {
         </div>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 gap-1">{navLink}</ul>
+        <ul className="menu menu-horizontal px-1 gap-2">{navLink}</ul>
       </div>
       <div className="navbar-end mr-3 gap-1">
         <Link
