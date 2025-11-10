@@ -3,6 +3,7 @@ import Header from "../Components/Header";
 import { Outlet } from "react-router";
 import Footer from "../Components/Footer";
 import { Toaster } from "react-hot-toast";
+import bgImg from "../assets/buildings-1762801593716.png";
 
 const MainLayout = () => {
   return (
@@ -10,14 +11,14 @@ const MainLayout = () => {
       <header>
         <Header />
       </header>
-      <main className="max-w-7xl mx-auto">
+      <main className={`bg-[url('${bgImg}')] mx-auto`}>
         <Outlet />
       </main>
       <footer>
         <Footer />
       </footer>
 
-      <Toaster/>
+      <Toaster />
     </div>
   );
 };
