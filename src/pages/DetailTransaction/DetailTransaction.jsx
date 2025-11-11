@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router";
+import { useParams, Link, useNavigate } from "react-router";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
@@ -9,10 +9,12 @@ import {
   User,
 } from "lucide-react";
 import Spinner from "../../Spinner/Spinner";
+import Swal from "sweetalert2";
 
 const DetailTransaction = () => {
   const { id } = useParams();
   const [transaction, setTransaction] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch specific transaction by ID
@@ -31,6 +33,41 @@ const DetailTransaction = () => {
   }
 
   const isIncome = transaction.type === "income";
+
+  const handleDelete = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:3000/transactions/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            navigate("/my-transaction");
+
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
+  };
 
   return (
     <motion.div
@@ -129,7 +166,10 @@ const DetailTransaction = () => {
           >
             Edit
           </Link>
-          <button className="btn btn-outline border-red-500 text-red-500 hover:bg-red-500 hover:text-white rounded-full px-6">
+          <button
+            onClick={handleDelete}
+            className="btn btn-outline border-red-500 text-red-500 hover:bg-red-500 hover:text-white rounded-full px-6"
+          >
             Delete
           </button>
         </div>
