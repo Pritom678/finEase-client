@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 import toast from "react-hot-toast";
 import { AuthContext } from "../../context/AuthContext";
-import { data, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const AddTransaction = () => {
   const { user } = useContext(AuthContext);
@@ -24,8 +24,14 @@ const AddTransaction = () => {
   };
 
   // Handle form submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!user) {
+    toast.error("You must be logged in to add a transaction.");
+    return;
+  }
+
 
     if (
       !formData.type ||
@@ -39,36 +45,41 @@ const AddTransaction = () => {
     const transactionData = {
       ...formData,
       email: user?.email,
-      name: user?.displayName,
+      name: user?.displayName || 'Unknown User',
     };
 
     // console.log(transactionData);
 
-    fetch("http://localhost:3000/transactions", {
+    try {
+    const res = await fetch("http://localhost:3000/transactions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(transactionData),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    toast.success("Transaction added successfully!");
-    setFormData({
-      type: "",
-      category: "",
-      amount: "",
-      date: "",
-      description: "",
     });
-    navigate("/my-transaction");
-  };
+
+    const data = await res.json();
+
+    if (res.ok) {
+      toast.success("Transaction added successfully!");
+      setFormData({
+        type: "",
+        category: "",
+        amount: "",
+        date: "",
+        description: "",
+      });
+      navigate("/my-transaction");
+    } else {
+      toast.error(data.message || "Failed to add transaction.");
+    }
+  } catch (error) {
+    console.error("Error adding transaction:", error);
+    toast.error("Something went wrong. Try again later.");
+  }
+};
+  
 
   return (
     <motion.div
