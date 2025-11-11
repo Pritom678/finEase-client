@@ -43,11 +43,8 @@ const TransactionCard = ({ data }) => {
                   >
                     Update
                   </Link>
-                  <button className="btn btn-xs bg-accent text-white hover:bg-accent/80">
-                    Delete
-                  </button>
                   <Link
-                    to="/detail-transaction"
+                    to={`/detail-transaction/${txn._id}`}
                     className="btn btn-xs bg-secondary text-white hover:bg-secondary/80"
                   >
                     View

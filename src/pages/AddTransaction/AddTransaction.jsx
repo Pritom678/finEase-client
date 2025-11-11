@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 import toast from "react-hot-toast";
 import { AuthContext } from "../../context/AuthContext";
-import { data } from "react-router";
+import { data, useNavigate } from "react-router";
 
 const AddTransaction = () => {
   const { user } = useContext(AuthContext);
@@ -14,6 +14,8 @@ const AddTransaction = () => {
     description: "",
     date: "",
   });
+
+  const navigate = useNavigate();
 
   // Handle input change
   const handleChange = (e) => {
@@ -40,7 +42,7 @@ const AddTransaction = () => {
       name: user?.displayName,
     };
 
-    console.log(transactionData);
+    // console.log(transactionData);
 
     fetch("http://localhost:3000/transactions", {
       method: "POST",
@@ -65,6 +67,7 @@ const AddTransaction = () => {
       date: "",
       description: "",
     });
+    navigate("/my-transaction");
   };
 
   return (
