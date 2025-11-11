@@ -1,10 +1,12 @@
-import React from "react";
+import React, { use } from "react";
 import { motion } from "framer-motion";
 import { useLoaderData } from "react-router";
 import TransactionCard from "../../Components/transactionCard";
 
+
 const MyTransaction = () => {
   const data = useLoaderData();
+  
   return (
     <div className="min-h-screen bg-base-100 py-10 px-5 md:px-16">
       <motion.h2
