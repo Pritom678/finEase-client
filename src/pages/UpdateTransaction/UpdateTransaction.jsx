@@ -22,7 +22,7 @@ const UpdateTransaction = () => {
 
   useEffect(() => {
     // Fetch existing transaction data
-    fetch(`http://localhost:3000/transactions/${id}`)
+    fetch(`https://fin-ease-server-jet.vercel.app/transactions/${id}`)
       .then((res) => res.json())
       .then((data) => {
         const tx = data.result || data; // handle both response structures
@@ -49,7 +49,7 @@ const UpdateTransaction = () => {
   // Handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:3000/transactions/${id}`, {
+    fetch(`https://fin-ease-server-jet.vercel.app/transactions/${id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",

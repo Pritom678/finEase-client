@@ -18,7 +18,7 @@ const MyTransaction = () => {
 
     setLoading(true);
     fetch(
-      `http://localhost:3000/transactions?email=${user.email}&sortBy=${sortBy}&order=${order}`
+      `https://fin-ease-server-jet.vercel.app/transactions?email=${user.email}&sortBy=${sortBy}&order=${order}`
     )
       .then((res) => res.json())
       .then((result) => {

@@ -18,7 +18,7 @@ export const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
-        path: "/home",
+        index: true,
         element: <Home />,
       },
       {
@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
             <MyTransaction />
           </PrivateRoute>
         ),
-        // loader: () => fetch("http://localhost:3000/transactions"),
+        // loader: () => fetch("https://fin-ease-server-jet.vercel.app/transactions"),
       },
       {
         path: "/reports",

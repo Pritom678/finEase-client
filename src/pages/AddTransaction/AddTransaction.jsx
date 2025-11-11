@@ -26,12 +26,11 @@ const AddTransaction = () => {
   // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!user) {
-    toast.error("You must be logged in to add a transaction.");
-    return;
-  }
 
+    if (!user) {
+      toast.error("You must be logged in to add a transaction.");
+      return;
+    }
 
     if (
       !formData.type ||
@@ -45,41 +44,43 @@ const AddTransaction = () => {
     const transactionData = {
       ...formData,
       email: user?.email,
-      name: user?.displayName || 'Unknown User',
+      name: user?.displayName || "Unknown User",
     };
 
     // console.log(transactionData);
 
     try {
-    const res = await fetch("http://localhost:3000/transactions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(transactionData),
-    });
+      const res = await fetch(
+        "https://fin-ease-server-jet.vercel.app/transactions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(transactionData),
+        }
+      );
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
-      toast.success("Transaction added successfully!");
-      setFormData({
-        type: "",
-        category: "",
-        amount: "",
-        date: "",
-        description: "",
-      });
-      navigate("/my-transaction");
-    } else {
-      toast.error(data.message || "Failed to add transaction.");
+      if (res.ok) {
+        toast.success("Transaction added successfully!");
+        setFormData({
+          type: "",
+          category: "",
+          amount: "",
+          date: "",
+          description: "",
+        });
+        navigate("/my-transaction");
+      } else {
+        toast.error(data.message || "Failed to add transaction.");
+      }
+    } catch (error) {
+      console.error("Error adding transaction:", error);
+      toast.error("Something went wrong. Try again later.");
     }
-  } catch (error) {
-    console.error("Error adding transaction:", error);
-    toast.error("Something went wrong. Try again later.");
-  }
-};
-  
+  };
 
   return (
     <motion.div

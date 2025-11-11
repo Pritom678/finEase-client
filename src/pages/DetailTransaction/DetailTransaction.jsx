@@ -18,7 +18,7 @@ const DetailTransaction = () => {
 
   useEffect(() => {
     // Fetch specific transaction by ID
-    fetch(`http://localhost:3000/transactions/${id}`)
+    fetch(`https://fin-ease-server-jet.vercel.app/transactions/${id}`)
       .then((res) => res.json())
       .then((data) => setTransaction(data.result))
       .catch((err) => console.error(err));
@@ -45,7 +45,7 @@ const DetailTransaction = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/transactions/${id}`, {
+        fetch(`https://fin-ease-server-jet.vercel.app/transactions/${id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

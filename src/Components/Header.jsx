@@ -9,9 +9,20 @@ const Header = () => {
   const { user, signOutUser } = use(AuthContext);
   const location = useLocation();
   const [active, setActive] = useState("");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   useEffect(() => {
-    if (location.pathname === "/home") setActive("home");
+    const html = document.querySelector("html");
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const handleTheme = (checked) => {
+    setTheme(checked ? "dark" : "light");
+  };
+
+  useEffect(() => {
+    if (location.pathname === "/") setActive("home");
     else if (location.pathname === "/add-transaction")
       setActive("addTransaction");
     else if (location.pathname === "/my-transaction")
@@ -30,7 +41,7 @@ const Header = () => {
       active === "home" ? "bg-secondary text-white" : ""
     }`}
       >
-        <Link to="/home">Home</Link>
+        <Link to="/">Home</Link>
       </li>
       <li
         onClick={() => setActive("addTransaction")}
@@ -91,7 +102,7 @@ const Header = () => {
         </div>
         <div className="flex items-center ml-3 md:ml-5 lg:ml-8">
           <img src={financeImg} alt="logo" className="w-[35px]" />
-          <Link to="/home" className="text-2xl font-bold text-primary ">
+          <Link to="/" className="text-2xl font-bold text-primary ">
             FinEase
           </Link>
         </div>
@@ -133,7 +144,7 @@ const Header = () => {
               </div>
 
               <input
-                // onChange={(e) => handleTheme(e.target.checked)}
+                onChange={(e) => handleTheme(e.target.checked)}
                 type="checkbox"
                 defaultChecked={localStorage.getItem("theme") === "dark"}
                 className="toggle"

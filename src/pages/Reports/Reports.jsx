@@ -25,7 +25,7 @@ const Reports = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:3000/report?email=${user.email}`)
+      fetch(`https://fin-ease-server-jet.vercel.app/report?email=${user.email}`)
         .then((res) => res.json())
         .then((result) => {
           if (result.success) {
