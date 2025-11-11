@@ -10,6 +10,7 @@ import UpdateTransaction from "../pages/UpdateTransaction/UpdateTransaction";
 import DetailTransaction from "../pages/DetailTransaction/DetailTransaction";
 import PrivateRoute from "./PrivateRoutes";
 import Profile from "../pages/Profile/Profile";
+import ErrorPage from "../ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
   {
@@ -35,7 +36,7 @@ export const router = createBrowserRouter([
             <MyTransaction />
           </PrivateRoute>
         ),
-        loader: () => fetch("http://localhost:3000/transactions"),
+        // loader: () => fetch("http://localhost:3000/transactions"),
       },
       {
         path: "/reports",
@@ -78,5 +79,9 @@ export const router = createBrowserRouter([
         element: <SignUp />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ]);

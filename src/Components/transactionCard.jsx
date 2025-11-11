@@ -2,60 +2,38 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
 
-const TransactionCard = ({ data }) => {
+const TransactionCard = ({ txn, index }) => {
+  if (!txn) return null;
   return (
-    <motion.div
-      key={data._id}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: data.index * 0.1 }}
-    >
-      <div className="overflow-x-auto bg-base-200 rounded-xl shadow-md">
-        <table className="table w-full">
-          <thead className="bg-primary text-white">
-            <tr>
-              <th>#</th>
-              <th>Type</th>
-              <th>Category</th>
-              <th>Amount</th>
-              <th>Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((txn, index) => (
-              <tr key={txn._id} className="hover:bg-base-100 transition-all">
-                <td>{index + 1}</td>
-                <td
-                  className={`font-semibold ${
-                    txn.type === "Income" ? "text-secondary" : "text-accent"
-                  }`}
-                >
-                  {txn.type}
-                </td>
-                <td className="font-medium">{txn.category}</td>
-                <td className="font-bold text-near">${txn.amount}</td>
-                <td className="text-gray-500">{txn.date}</td>
-                <td className="space-x-2">
-                  <Link
-                    to={`/update-transaction/${txn._id}`}
-                    className="btn btn-xs bg-primary text-white hover:bg-primary/80"
-                  >
-                    Update
-                  </Link>
-                  <Link
-                    to={`/detail-transaction/${txn._id}`}
-                    className="btn btn-xs bg-secondary text-white hover:bg-secondary/80"
-                  >
-                    View
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </motion.div>
+    <tr key={txn._id} className="hover:bg-base-100 transition-all">
+      <td>{index + 1}</td>
+      <td
+        className={`font-semibold ${
+          txn.type?.toLowerCase() === "income"
+            ? "text-green-600"
+            : "text-red-500"
+        }`}
+      >
+        {txn.type}
+      </td>
+      <td className="font-medium">{txn.category}</td>
+      <td className="font-bold">${txn.amount}</td>
+      <td className="text-gray-500">{txn.createdAt}</td>
+      <td className="space-x-2">
+        <Link
+          to={`/update-transaction/${txn._id}`}
+          className="btn btn-xs bg-primary text-white hover:bg-primary/80"
+        >
+          Update
+        </Link>
+        <Link
+          to={`/detail-transaction/${txn._id}`}
+          className="btn btn-xs bg-secondary text-white hover:bg-secondary/80"
+        >
+          View
+        </Link>
+      </td>
+    </tr>
   );
 };
 
