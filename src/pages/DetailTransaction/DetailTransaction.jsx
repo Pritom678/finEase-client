@@ -76,7 +76,7 @@ const DetailTransaction = () => {
                   isIncome ? "text-green-600" : "text-red-500"
                 } font-bold`}
               >
-                ৳{transaction.amount}
+                ${transaction.amount}
               </span>
             </p>
           </div>

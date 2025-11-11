@@ -38,7 +38,7 @@ const TransactionCard = ({ data }) => {
                 <td className="text-gray-500">{txn.date}</td>
                 <td className="space-x-2">
                   <Link
-                    to="/update-transaction"
+                    to={`/update-transaction/${txn._id}`}
                     className="btn btn-xs bg-primary text-white hover:bg-primary/80"
                   >
                     Update

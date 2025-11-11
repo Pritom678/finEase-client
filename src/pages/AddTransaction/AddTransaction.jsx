@@ -136,7 +136,7 @@ const AddTransaction = () => {
                   <option value="Business">Business</option>
                   <option value="Investment">Investment</option>
                   <option value="Freelance">Freelance</option>
-                  <option value="Other Income">Other</option>
+                  <option value="Other">Other</option>
                 </optgroup>
 
                 {/* Expense categories */}
@@ -147,7 +147,7 @@ const AddTransaction = () => {
                   <option value="Entertainment">Entertainment</option>
                   <option value="Shopping">Shopping</option>
                   <option value="Bills">Bills</option>
-                  <option value="Other Expense">Other</option>
+                  <option value="Other">Other</option>
                 </optgroup>
               </select>
             </div>
