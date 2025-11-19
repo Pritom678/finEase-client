@@ -54,7 +54,7 @@ const Reports = () => {
               Total Income
             </h3>
             <p className="text-3xl font-bold mt-2 text-green-800">
-              ₹{summary.totalIncome?.toLocaleString() || 0}
+              ${summary.totalIncome?.toLocaleString() || 0}
             </p>
           </div>
 
@@ -63,7 +63,7 @@ const Reports = () => {
               Total Expense
             </h3>
             <p className="text-3xl font-bold mt-2 text-red-800">
-              ₹{summary.totalExpense?.toLocaleString() || 0}
+              ${summary.totalExpense?.toLocaleString() || 0}
             </p>
           </div>
 
@@ -78,7 +78,7 @@ const Reports = () => {
                 summary.netBalance >= 0 ? "text-blue-800" : "text-yellow-800"
               }`}
             >
-              ₹{summary.netBalance?.toLocaleString() || 0}
+              ${summary.netBalance?.toLocaleString() || 0}
             </p>
           </div>
         </div>
