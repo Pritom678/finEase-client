@@ -1,117 +1,140 @@
-import React, { use } from "react";
+import React, { useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { useLocation, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
 
 const Login = () => {
-  const { signInUser, signInWithGoogle } = use(AuthContext);
-
+  const { signInUser, signInWithGoogle } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location);
 
   const handleLogIn = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    console.log(email, password);
     signInUser(email, password)
-      .then((result) => {
-        console.log(result.user);
+      .then(() => {
         e.target.reset();
         navigate(location.state || "/");
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
   const handleGoogleSignIn = () => {
     signInWithGoogle()
-      .then((result) => {
-        console.log(result.user);
-        navigate(location?.state || "/");
+      .then(() => {
+        navigate(location.state || "/");
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center">
-      <div className="bg-base-200  text-near p-8 rounded-2xl w-[380px] shadow-lg border border-gray-300">
-        <h2 className="text-2xl font-bold text-center mb-2">
-          Sign in to your account
-        </h2>
-        <p className="text-sm text-center text-gray-400 mb-6">
-          Login to your account for a faster checkout.
-        </p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-teal-50/30 to-emerald-50/20 dark:from-gray-900 dark:via-[#0f172a] dark:to-gray-900 flex items-center justify-center py-12 px-6">
+      <div className="w-full max-w-xl"> {/* Wide form container */}
+        {/* Glassmorphic Login Card */}
+        <div className="relative bg-white/90 dark:bg-gray-800/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-12 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-emerald-500/5 pointer-events-none" />
 
-        <button
-          onClick={handleGoogleSignIn}
-          className="btn w-full flex items-center gap-2 border-secondary hover:bg-secondary"
-        >
-          <FcGoogle className="text-xl" /> Sign in with Google
-        </button>
+          <div className="relative z-10 text-center">
+            <h2 className="text-5xl md:text-6xl font-extrabold text-gray-800 dark:text-gray-100 mb-6">
+              Welcome Back
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400 mb-12">
+              Sign in to manage your finances with ease
+            </p>
 
-        <div className="flex items-center gap-2 my-6 text-gray-500">
-          <div className="flex-1 h-px bg-gray-300"></div>
-          <span className="text-sm">Or, sign in with your email</span>
-          <div className="flex-1 h-px bg-gray-300"></div>
+            {/* Google Button - Moderate Size */}
+            <button
+              onClick={handleGoogleSignIn}
+              className="w-full flex items-center justify-center gap-4 px-6 py-4 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-2xl shadow-md hover:shadow-lg hover:border-teal-500 dark:hover:border-teal-400 transition-all duration-300 group"
+            >
+              <FcGoogle className="text-2xl" />
+              <span className="font-semibold text-gray-800 dark:text-gray-100 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                Continue with Google
+              </span>
+            </button>
+
+            {/* Divider */}
+            <div className="relative my-12">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300 dark:border-gray-600" />
+              </div>
+              <div className="relative flex justify-center text-base">
+                <span className="px-8 bg-white dark:bg-gray-800/95 text-gray-500 font-medium">
+                  or sign in with email
+                </span>
+              </div>
+            </div>
+
+            {/* Form - Large Inputs, Moderate Buttons */}
+            <form onSubmit={handleLogIn} className="space-y-10">
+              {/* Email */}
+              <div>
+                <label className="block text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  className="input input-lg w-full text-lg bg-gray-100 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/20 rounded-2xl px-6 py-5"
+                  required
+                />
+              </div>
+
+              {/* Password */}
+              <div>
+                <label className="block text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="••••••••"
+                  className="input input-lg w-full text-lg bg-gray-100 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/20 rounded-2xl px-6 py-5"
+                  required
+                />
+              </div>
+
+              {/* Remember + Forgot */}
+              <div className="flex justify-between items-center text-base mb-8">
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input type="checkbox" className="checkbox checkbox-md border-gray-400" />
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">
+                    Keep me signed in
+                  </span>
+                </label>
+                <a href="#" className="text-teal-600 dark:text-teal-400 hover:underline font-medium">
+                  Forgot password?
+                </a>
+              </div>
+
+              {/* Sign In Button - Moderate Size */}
+              <button
+                type="submit"
+                className="w-full py-5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white font-bold text-xl rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                Sign In
+              </button>
+            </form>
+
+            {/* Sign Up Link */}
+            <p className="mt-12 text-center text-lg text-gray-600 dark:text-gray-400">
+              Don't have an account?{" "}
+              <Link
+                to="/signup"
+                className="font-bold text-teal-600 dark:text-teal-400 hover:underline transition-colors text-xl"
+              >
+                Sign up here
+              </Link>
+            </p>
+          </div>
         </div>
-
-        {/* Form field */}
-        <form onSubmit={handleLogIn}>
-          {/* Email Input */}
-          <div className="mb-4">
-            <label className="text-sm font-semibold mb-1 block">
-              Your Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your Email"
-              className="input input-bordered w-full bg-base-100 border-secondary placeholder-gray-400"
-            />
-          </div>
-
-          {/* Password Input */}
-          <div className="mb-4">
-            <label className="text-sm font-semibold mb-1 block">
-              Your Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter your Password"
-              className="input input-bordered w-full bg-base-100 border-secondary placeholder-gray-400"
-            />
-          </div>
-
-          {/* Keep me signed in + Forgot Password */}
-          <div className="flex justify-between items-center text-sm mb-6">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" className="checkbox checkbox-sm" />
-              <span className="text-near">Keep me signed in</span>
-            </label>
-            <a href="#" className="text-primary hover:underline">
-              Forgot Password?
-            </a>
-          </div>
-
-          {/* Sign In Button */}
-          <button className="btn bg-primary hover:bg-blue-600 w-full text-white border-none rounded-full">
-            Sign in
-          </button>
-        </form>
-        {/* Sign Up Link */}
-        <p className="text-center text-sm mt-6 text-gray-400">
-          Don’t you have an account?{" "}
-          <a href="#" className="text-primary font-medium hover:underline">
-            Sign up
-          </a>
-        </p>
       </div>
     </div>
   );
