@@ -16,7 +16,7 @@ const Login = () => {
     signInUser(email, password)
       .then(() => {
         e.target.reset();
-        navigate(location.state || "/");
+        navigate(location.state || "/dashboard");
       })
       .catch((error) => {
         console.error(error);
@@ -26,7 +26,7 @@ const Login = () => {
   const handleGoogleSignIn = () => {
     signInWithGoogle()
       .then(() => {
-        navigate(location.state || "/");
+        navigate(location.state || "/dashboard");
       })
       .catch((error) => {
         console.error(error);
@@ -35,7 +35,9 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-teal-50/30 to-emerald-50/20 dark:from-gray-900 dark:via-[#0f172a] dark:to-gray-900 flex items-center justify-center py-12 px-6">
-      <div className="w-full max-w-xl"> {/* Wide form container */}
+      <div className="w-full max-w-xl">
+        {" "}
+        {/* Wide form container */}
         {/* Glassmorphic Login Card */}
         <div className="relative bg-white/90 dark:bg-gray-800/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-12 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-emerald-500/5 pointer-events-none" />
@@ -104,12 +106,18 @@ const Login = () => {
               {/* Remember + Forgot */}
               <div className="flex justify-between items-center text-base mb-8">
                 <label className="flex items-center gap-3 cursor-pointer">
-                  <input type="checkbox" className="checkbox checkbox-md border-gray-400" />
+                  <input
+                    type="checkbox"
+                    className="checkbox checkbox-md border-gray-400"
+                  />
                   <span className="text-gray-700 dark:text-gray-300 font-medium">
                     Keep me signed in
                   </span>
                 </label>
-                <a href="#" className="text-teal-600 dark:text-teal-400 hover:underline font-medium">
+                <a
+                  href="#"
+                  className="text-teal-600 dark:text-teal-400 hover:underline font-medium"
+                >
                   Forgot password?
                 </a>
               </div>

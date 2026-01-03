@@ -24,12 +24,33 @@ const AddTransaction = () => {
     e.preventDefault();
 
     if (!user) {
-      toast.error("You must be logged in to add a transaction.");
+      toast.error("You must be logged in to add a transaction.", {
+        style: {
+          background: "#ef4444",
+          color: "white",
+          fontWeight: "bold",
+          borderRadius: "16px",
+          padding: "16px 20px",
+        },
+      });
       return;
     }
 
-    if (!formData.type || !formData.category || !formData.amount || !formData.date) {
-      toast.error("Please fill in all required fields");
+    if (
+      !formData.type ||
+      !formData.category ||
+      !formData.amount ||
+      !formData.date
+    ) {
+      toast.error("Please fill in all required fields", {
+        style: {
+          background: "#ef4444",
+          color: "white",
+          fontWeight: "bold",
+          borderRadius: "16px",
+          padding: "16px 20px",
+        },
+      });
       return;
     }
 
@@ -40,16 +61,27 @@ const AddTransaction = () => {
     };
 
     try {
-      const res = await fetch("https://fin-ease-server-jet.vercel.app/transactions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(transactionData),
-      });
+      const res = await fetch(
+        "https://fin-ease-server-jet.vercel.app/transactions",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(transactionData),
+        }
+      );
 
       const data = await res.json();
 
       if (res.ok) {
-        toast.success("Transaction added successfully!");
+        toast.success("Transaction added successfully!", {
+          style: {
+            background: "#14b8a6", // teal-500
+            color: "white",
+            fontWeight: "bold",
+            borderRadius: "16px",
+            padding: "16px 20px",
+          },
+        });
         setFormData({
           type: "expense",
           category: "",
@@ -57,7 +89,7 @@ const AddTransaction = () => {
           description: "",
           date: new Date().toISOString().split("T")[0],
         });
-        navigate("/my-transaction");
+        navigate("/dashboard/my-transaction");
       } else {
         toast.error(data.message || "Failed to add transaction.");
       }
@@ -68,10 +100,28 @@ const AddTransaction = () => {
   };
 
   // Dynamic categories based on type
-  const incomeCategories = ["Salary", "Freelance", "Business", "Investment", "Gift", "Other"];
-  const expenseCategories = ["Food", "Rent", "Transport", "Shopping", "Bills", "Entertainment", "Health", "Education", "Other"];
+  const incomeCategories = [
+    "Salary",
+    "Freelance",
+    "Business",
+    "Investment",
+    "Gift",
+    "Other",
+  ];
+  const expenseCategories = [
+    "Food",
+    "Rent",
+    "Transport",
+    "Shopping",
+    "Bills",
+    "Entertainment",
+    "Health",
+    "Education",
+    "Other",
+  ];
 
-  const categories = formData.type === "income" ? incomeCategories : expenseCategories;
+  const categories =
+    formData.type === "income" ? incomeCategories : expenseCategories;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-teal-50/30 to-emerald-50/20 dark:from-gray-900 dark:via-[#0f172a] dark:to-gray-900 py-16 px-6">
@@ -95,8 +145,12 @@ const AddTransaction = () => {
                 {user?.displayName?.charAt(0).toUpperCase() || "U"}
               </div>
               <div>
-                <p className="font-semibold text-gray-800 dark:text-gray-100">{user?.displayName || "User"}</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">{user?.email}</p>
+                <p className="font-semibold text-gray-800 dark:text-gray-100">
+                  {user?.displayName || "User"}
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {user?.email}
+                </p>
               </div>
             </div>
 
@@ -109,7 +163,9 @@ const AddTransaction = () => {
                 <div className="flex gap-4 justify-center">
                   <button
                     type="button"
-                    onClick={() => setFormData({ ...formData, type: "income", category: "" })}
+                    onClick={() =>
+                      setFormData({ ...formData, type: "income", category: "" })
+                    }
                     className={`px-10 py-4 rounded-full font-semibold text-lg transition-all duration-300 ${
                       formData.type === "income"
                         ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg"
@@ -120,7 +176,13 @@ const AddTransaction = () => {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setFormData({ ...formData, type: "expense", category: "" })}
+                    onClick={() =>
+                      setFormData({
+                        ...formData,
+                        type: "expense",
+                        category: "",
+                      })
+                    }
                     className={`px-10 py-4 rounded-full font-semibold text-lg transition-all duration-300 ${
                       formData.type === "expense"
                         ? "bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-lg"
@@ -142,7 +204,9 @@ const AddTransaction = () => {
                     <button
                       key={cat}
                       type="button"
-                      onClick={() => setFormData({ ...formData, category: cat })}
+                      onClick={() =>
+                        setFormData({ ...formData, category: cat })
+                      }
                       className={`py-3 px-5 rounded-xl font-medium transition-all duration-300 border-2 ${
                         formData.category === cat
                           ? "bg-teal-500 text-white border-teal-500 shadow-md"

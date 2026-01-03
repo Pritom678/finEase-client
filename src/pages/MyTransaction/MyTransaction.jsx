@@ -8,6 +8,8 @@ import {
   HiOutlineSortDescending,
   HiOutlineEye,
   HiOutlinePencil,
+  HiChevronLeft,
+  HiChevronRight,
 } from "react-icons/hi";
 import { Link } from "react-router";
 import { Line } from "react-chartjs-2";
@@ -41,6 +43,10 @@ const MyTransaction = () => {
   const [order, setOrder] = useState("desc");
   const [loading, setLoading] = useState(true);
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardsPerPage = 9;
+
   useEffect(() => {
     if (!user?.email) return;
 
@@ -65,9 +71,25 @@ const MyTransaction = () => {
 
   const toggleOrder = () => {
     setOrder(order === "desc" ? "asc" : "desc");
+    setCurrentPage(1); // Reset to first page when sorting changes
   };
 
-  // Prepare data for the line chart (cumulative balance over time)
+  // === PAGINATION LOGIC ===
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  const currentTransactions = transactions.slice(
+    indexOfFirstCard,
+    indexOfLastCard
+  );
+  const totalPages = Math.ceil(transactions.length / cardsPerPage);
+
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  // Prepare chart data (unchanged - uses all transactions for accurate cumulative balance)
   const prepareChartData = () => {
     if (transactions.length === 0) return null;
 
@@ -162,7 +184,10 @@ const MyTransaction = () => {
             <HiOutlineCash className="w-6 h-6 text-teal-600 dark:text-teal-400" />
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={(e) => {
+                setSortBy(e.target.value);
+                setCurrentPage(1);
+              }}
               className="bg-transparent text-lg font-medium text-gray-800 dark:text-gray-100 focus:outline-none"
             >
               <option value="date">Sort by Date</option>
@@ -183,7 +208,7 @@ const MyTransaction = () => {
           </button>
         </div>
 
-        {/* Loading / Empty / Transactions + Graph */}
+        {/* Loading / Empty / Transactions */}
         {loading ? (
           <div className="flex justify-center items-center h-96">
             <Spinner />
@@ -210,9 +235,9 @@ const MyTransaction = () => {
           </div>
         ) : (
           <>
-            {/* Transaction Cards with View & Update Buttons */}
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-20">
-              {transactions.map((txn, index) => (
+            {/* Transaction Cards Grid */}
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-12">
+              {currentTransactions.map((txn, index) => (
                 <div
                   key={txn._id}
                   className="group relative bg-white/80 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-lg hover:shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-8 transition-all duration-500 hover:-translate-y-3"
@@ -270,10 +295,9 @@ const MyTransaction = () => {
                     )}
                   </div>
 
-                  {/* View & Update Buttons */}
                   <div className="flex gap-4">
                     <Link
-                      to={`/detail-transaction/${txn._id}`}
+                      to={`/dashboard/detail-transaction/${txn._id}`}
                       className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-teal-500/20 hover:bg-teal-500/30 dark:bg-teal-900/40 dark:hover:bg-teal-900/60 text-teal-700 dark:text-teal-300 font-bold rounded-2xl border border-teal-500/50 dark:border-teal-700/50 shadow-md hover:shadow-lg transition-all duration-300"
                     >
                       <HiOutlineEye className="w-5 h-5" />
@@ -281,7 +305,7 @@ const MyTransaction = () => {
                     </Link>
 
                     <Link
-                      to={`/update-transaction/${txn._id}`}
+                      to={`/dashboard/update-transaction/${txn._id}`}
                       className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-emerald-500/20 hover:bg-emerald-500/30 dark:bg-emerald-900/40 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 font-bold rounded-2xl border border-emerald-500/50 dark:border-emerald-700/50 shadow-md hover:shadow-lg transition-all duration-300"
                     >
                       <HiOutlinePencil className="w-5 h-5" />
@@ -291,12 +315,59 @@ const MyTransaction = () => {
 
                   <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
                     <p className="text-xs text-gray-500 dark:text-gray-600 text-center">
-                      Transaction #{index + 1}
+                      Transaction #{indexOfFirstCard + index + 1}
                     </p>
                   </div>
                 </div>
               ))}
             </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center gap-4 mb-20">
+                <button
+                  onClick={() => goToPage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className={`p-3 rounded-xl transition-all ${
+                    currentPage === 1
+                      ? "bg-gray-200/50 dark:bg-gray-700/50 text-gray-400 cursor-not-allowed"
+                      : "bg-teal-500/20 hover:bg-teal-500/40 text-teal-700 dark:text-teal-300 hover:shadow-lg"
+                  }`}
+                >
+                  <HiChevronLeft className="w-6 h-6" />
+                </button>
+
+                <div className="flex gap-2">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (page) => (
+                      <button
+                        key={page}
+                        onClick={() => goToPage(page)}
+                        className={`w-12 h-12 rounded-xl font-bold transition-all ${
+                          currentPage === page
+                            ? "bg-gradient-to-r from-teal-500 to-emerald-500 text-white shadow-xl scale-110"
+                            : "bg-white/70 dark:bg-gray-800/70 text-gray-700 dark:text-gray-300 hover:bg-teal-500/20 hover:scale-105"
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    )
+                  )}
+                </div>
+
+                <button
+                  onClick={() => goToPage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className={`p-3 rounded-xl transition-all ${
+                    currentPage === totalPages
+                      ? "bg-gray-200/50 dark:bg-gray-700/50 text-gray-400 cursor-not-allowed"
+                      : "bg-teal-500/20 hover:bg-teal-500/40 text-teal-700 dark:text-teal-300 hover:shadow-lg"
+                  }`}
+                >
+                  <HiChevronRight className="w-6 h-6" />
+                </button>
+              </div>
+            )}
 
             {/* Balance Over Time Graph */}
             {chartData && (

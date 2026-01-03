@@ -36,7 +36,15 @@ const UpdateTransaction = () => {
       })
       .catch((err) => {
         console.error(err);
-        toast.error("Failed to load transaction");
+        toast.error("Failed to load transaction", {
+          style: {
+            background: "#ef4444",
+            color: "white",
+            fontWeight: "bold",
+            borderRadius: "16px",
+            padding: "16px 20px",
+          },
+        });
         setLoading(false);
       });
   }, [id]);
@@ -58,7 +66,15 @@ const UpdateTransaction = () => {
     e.preventDefault();
 
     if (!formData.category || !formData.amount || !formData.date) {
-      toast.error("Please fill in all required fields");
+      toast.error("Please fill in all required fields", {
+        style: {
+          background: "#ef4444",
+          color: "white",
+          fontWeight: "bold",
+          borderRadius: "16px",
+          padding: "16px 20px",
+        },
+      });
       return;
     }
 
@@ -76,14 +92,38 @@ const UpdateTransaction = () => {
       );
 
       if (res.ok) {
-        toast.success("Transaction updated successfully!");
-        navigate("/my-transaction");
+        toast.success("Transaction updated successfully!", {
+          style: {
+            background: "#14b8a6",
+            color: "white",
+            fontWeight: "bold",
+            borderRadius: "16px",
+            padding: "16px 20px",
+          },
+        });
+        navigate("/dashboard/my-transaction");
       } else {
-        toast.error("Failed to update transaction");
+        toast.error("Failed to update transaction", {
+          style: {
+            background: "#ef4444",
+            color: "white",
+            fontWeight: "bold",
+            borderRadius: "16px",
+            padding: "16px 20px",
+          },
+        });
       }
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong");
+      toast.error("Something went wrong", {
+        style: {
+          background: "#ef4444",
+          color: "white",
+          fontWeight: "bold",
+          borderRadius: "16px",
+          padding: "16px 20px",
+        },
+      });
     }
   };
 

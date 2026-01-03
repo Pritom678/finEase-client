@@ -4,10 +4,12 @@ import financeImg from "../assets/Business-and-financial-logo-design-template-is
 import { AuthContext } from "../context/AuthContext";
 import { IoLogOut } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
+import { LucideLayoutDashboard, User } from "lucide-react";
 
 const Header = () => {
   const { user, signOutUser } = use(AuthContext);
   const location = useLocation();
+  const currentPath = location.pathname;
   const [active, setActive] = useState("");
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
@@ -21,66 +23,66 @@ const Header = () => {
     setTheme(checked ? "dark" : "light");
   };
 
-  useEffect(() => {
-    if (location.pathname === "/") setActive("home");
-    else if (location.pathname === "/add-transaction")
-      setActive("addTransaction");
-    else if (location.pathname === "/my-transaction")
-      setActive("myTransaction");
-    else if (location.pathname === "/reports") setActive("reports");
-    else if (location.pathname === "/login") setActive("login");
-    else if (location.pathname === "/signup") setActive("signup");
-  }, [location.pathname]);
-
   const navLink = (
     <>
-      <li
-        onClick={() => setActive("home")}
-        className={`rounded-lg px-4 py-2 transition-all duration-200 
+      <li>
+        <Link
+          to="/"
+          className={`block rounded-lg px-4 py-2 transition-all duration-200 
           hover:scale-105 hover:bg-teal-600 hover:text-white active:scale-95 font-medium
           ${
-            active === "home"
+            currentPath === "/" || currentPath === ""
               ? "bg-teal-600 text-white shadow-md"
               : "text-gray-700 dark:text-gray-300"
           }`}
-      >
-        <Link to="/">Home</Link>
+        >
+          Home
+        </Link>
       </li>
-      <li
-        onClick={() => setActive("addTransaction")}
-        className={`rounded-lg px-4 py-2 transition-all duration-200 
+
+      <li>
+        <Link
+          to="/about"
+          className={`block rounded-lg px-4 py-2 transition-all duration-200 
           hover:scale-105 hover:bg-teal-600 hover:text-white active:scale-95 font-medium
           ${
-            active === "addTransaction"
+            currentPath === "/about"
               ? "bg-teal-600 text-white shadow-md"
               : "text-gray-700 dark:text-gray-300"
           }`}
-      >
-        <Link to="/add-transaction">Add Transaction</Link>
+        >
+          About
+        </Link>
       </li>
-      <li
-        onClick={() => setActive("myTransaction")}
-        className={`rounded-lg px-4 py-2 transition-all duration-200 
+
+      <li>
+        <Link
+          to="/contacts"
+          className={`block rounded-lg px-4 py-2 transition-all duration-200 
           hover:scale-105 hover:bg-teal-600 hover:text-white active:scale-95 font-medium
           ${
-            active === "myTransaction"
+            currentPath === "/contacts"
               ? "bg-teal-600 text-white shadow-md"
               : "text-gray-700 dark:text-gray-300"
           }`}
-      >
-        <Link to="/my-transaction">My Transaction</Link>
+        >
+          Contacts
+        </Link>
       </li>
-      <li
-        onClick={() => setActive("reports")}
-        className={`rounded-lg px-4 py-2 transition-all duration-200 
+
+      <li>
+        <Link
+          to="/service"
+          className={`block rounded-lg px-4 py-2 transition-all duration-200 
           hover:scale-105 hover:bg-teal-600 hover:text-white active:scale-95 font-medium
           ${
-            active === "reports"
+            currentPath === "/service"
               ? "bg-teal-600 text-white shadow-md"
               : "text-gray-700 dark:text-gray-300"
           }`}
-      >
-        <Link to="/reports">Reports</Link>
+        >
+          Services
+        </Link>
       </li>
     </>
   );
@@ -176,8 +178,14 @@ const Header = () => {
                 </li>
                 <li className="mt-4">
                   <Link to="/profile" className="flex items-center gap-2">
-                    <FaUser className="text-teal-600 dark:text-teal-400" />
+                    <User className="text-teal-600 dark:text-teal-400" />
                     Profile
+                  </Link>
+                </li>
+                <li className="mt-4">
+                  <Link to="/dashboard" className="flex items-center gap-2">
+                    <LucideLayoutDashboard className="text-teal-600 dark:text-teal-400" />
+                    Dashboard
                   </Link>
                 </li>
               </div>

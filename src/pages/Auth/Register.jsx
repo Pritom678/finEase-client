@@ -57,7 +57,7 @@ const Register = () => {
       toast.success("Account created successfully! Welcome! 🎉", {
         id: "signup",
       });
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.error(error);
       let message = "Failed to create account";
@@ -81,7 +81,7 @@ const Register = () => {
       toast.success("Welcome! Account created with Google! 🎉", {
         id: "signup",
       });
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.error(error);
       toast.error("Google signup failed", { id: "signup" });

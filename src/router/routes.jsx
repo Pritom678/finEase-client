@@ -11,6 +11,11 @@ import DetailTransaction from "../pages/DetailTransaction/DetailTransaction";
 import PrivateRoute from "./PrivateRoutes";
 import Profile from "../pages/Profile/Profile";
 import ErrorPage from "../ErrorPage/ErrorPage";
+import DashboardLayout from "../layout/DashboardLayout";
+import Overview from "../Components/Overview";
+import About from "../pages/About/About";
+import Contact from "../pages/Contact/Contact";
+import Services from "../pages/Services/Services";
 
 export const router = createBrowserRouter([
   {
@@ -22,7 +27,33 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/add-transaction",
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/contacts",
+        element: <Contact />,
+      },
+      {
+        path: "/service",
+        element: <Services />,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <Overview />,
+      },
+      {
+        path: "/dashboard/add-transaction",
         element: (
           <PrivateRoute>
             <AddTransaction />
@@ -30,7 +61,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/my-transaction",
+        path: "/dashboard/my-transaction",
         element: (
           <PrivateRoute>
             <MyTransaction />
@@ -39,7 +70,7 @@ export const router = createBrowserRouter([
         // loader: () => fetch("https://fin-ease-server-jet.vercel.app/transactions"),
       },
       {
-        path: "/reports",
+        path: "/dashboard/reports",
         element: (
           <PrivateRoute>
             <Reports />
@@ -47,7 +78,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/update-transaction/:id",
+        path: "/dashboard/update-transaction/:id",
         element: (
           <PrivateRoute>
             <UpdateTransaction />
@@ -55,7 +86,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/detail-transaction/:id",
+        path: "/dashboard/detail-transaction/:id",
         element: (
           <PrivateRoute>
             <DetailTransaction />
@@ -63,22 +94,22 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/profile",
+        path: "/dashboard/profile",
         element: (
           <PrivateRoute>
             <Profile />
           </PrivateRoute>
         ),
       },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/signup",
-        element: <SignUp />,
-      },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <SignUp />,
   },
   {
     path: "*",

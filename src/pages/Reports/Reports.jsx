@@ -8,11 +8,13 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { 
-  HiCurrencyDollar, 
-  HiArrowTrendingUp, 
-  HiArrowTrendingDown 
-} from "react-icons/hi2"; // ✅ These exist in hi2
+import {
+  HiCurrencyDollar,
+  HiArrowTrendingUp,
+  HiArrowTrendingDown,
+} from "react-icons/hi2";
+import Spinner from "../../Spinner/Spinner";
+import { Link } from "react-router";
 
 const GRADIENT_COLORS = [
   { start: "#10b981", end: "#34d399" }, // emerald
@@ -63,13 +65,14 @@ const Reports = () => {
             Financial Reports
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-400">
-            Gain deep insights into your income, spending patterns, and financial health
+            Gain deep insights into your income, spending patterns, and
+            financial health
           </p>
         </div>
 
         {loading ? (
           <div className="flex justify-center items-center h-96">
-            <div className="w-16 h-16 border-4 border-teal-500 border-t-transparent rounded-full animate-spin" />
+            <Spinner />
           </div>
         ) : (
           <>
@@ -80,7 +83,9 @@ const Reports = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent pointer-events-none" />
                 <div className="relative z-10 flex items-center justify-between">
                   <div>
-                    <p className="text-lg font-medium text-gray-600 dark:text-gray-400 mb-2">Total Income</p>
+                    <p className="text-lg font-medium text-gray-600 dark:text-gray-400 mb-2">
+                      Total Income
+                    </p>
                     <p className="text-5xl font-extrabold text-emerald-600 dark:text-emerald-400">
                       {formatCurrency(summary.totalIncome)}
                     </p>
@@ -96,7 +101,9 @@ const Reports = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-rose-500/10 to-transparent pointer-events-none" />
                 <div className="relative z-10 flex items-center justify-between">
                   <div>
-                    <p className="text-lg font-medium text-gray-600 dark:text-gray-400 mb-2">Total Expense</p>
+                    <p className="text-lg font-medium text-gray-600 dark:text-gray-400 mb-2">
+                      Total Expense
+                    </p>
                     <p className="text-5xl font-extrabold text-rose-600 dark:text-rose-400">
                       {formatCurrency(summary.totalExpense)}
                     </p>
@@ -109,16 +116,43 @@ const Reports = () => {
 
               {/* Net Balance */}
               <div className="relative bg-white/80 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-10 overflow-hidden group hover:-translate-y-1 transition-all">
-                <div className={`absolute inset-0 bg-gradient-to-br ${summary.netBalance >= 0 ? "from-teal-500/10" : "from-yellow-500/10"} to-transparent pointer-events-none`} />
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${
+                    summary.netBalance >= 0
+                      ? "from-teal-500/10"
+                      : "from-yellow-500/10"
+                  } to-transparent pointer-events-none`}
+                />
                 <div className="relative z-10 flex items-center justify-between">
                   <div>
-                    <p className="text-lg font-medium text-gray-600 dark:text-gray-400 mb-2">Net Balance</p>
-                    <p className={`text-5xl font-extrabold mt-4 ${summary.netBalance >= 0 ? "text-teal-600 dark:text-teal-400" : "text-yellow-600 dark:text-yellow-400"}`}>
-                      {summary.netBalance >= 0 ? "+" : ""}{formatCurrency(summary.netBalance)}
+                    <p className="text-lg font-medium text-gray-600 dark:text-gray-400 mb-2">
+                      Net Balance
+                    </p>
+                    <p
+                      className={`text-5xl font-extrabold mt-4 ${
+                        summary.netBalance >= 0
+                          ? "text-teal-600 dark:text-teal-400"
+                          : "text-yellow-600 dark:text-yellow-400"
+                      }`}
+                    >
+                      {summary.netBalance >= 0 ? "+" : ""}
+                      {formatCurrency(summary.netBalance)}
                     </p>
                   </div>
-                  <div className={`p-5 rounded-2xl group-hover:scale-110 transition-transform ${summary.netBalance >= 0 ? "bg-teal-100 dark:bg-teal-900/50" : "bg-yellow-100 dark:bg-yellow-900/50"}`}>
-                    <HiCurrencyDollar className={`w-12 h-12 ${summary.netBalance >= 0 ? "text-teal-600 dark:text-teal-400" : "text-yellow-600 dark:text-yellow-400"}`} />
+                  <div
+                    className={`p-5 rounded-2xl group-hover:scale-110 transition-transform ${
+                      summary.netBalance >= 0
+                        ? "bg-teal-100 dark:bg-teal-900/50"
+                        : "bg-yellow-100 dark:bg-yellow-900/50"
+                    }`}
+                  >
+                    <HiCurrencyDollar
+                      className={`w-12 h-12 ${
+                        summary.netBalance >= 0
+                          ? "text-teal-600 dark:text-teal-400"
+                          : "text-yellow-600 dark:text-yellow-400"
+                      }`}
+                    />
                   </div>
                 </div>
               </div>
@@ -142,14 +176,17 @@ const Reports = () => {
                       paddingAngle={3}
                       dataKey="amount"
                       nameKey="category"
-                      label={({ name, percent }) => 
+                      label={({ name, percent }) =>
                         `${name} ${(percent * 100).toFixed(0)}%`
                       }
                     >
                       {chartData.map((entry, index) => (
                         <Cell
                           key={`cell-${index}`}
-                          fill={GRADIENT_COLORS[index % GRADIENT_COLORS.length].start}
+                          fill={
+                            GRADIENT_COLORS[index % GRADIENT_COLORS.length]
+                              .start
+                          }
                         />
                       ))}
                     </Pie>
@@ -169,7 +206,9 @@ const Reports = () => {
                       iconType="circle"
                       iconSize={16}
                       formatter={(value) => (
-                        <span className="text-lg font-medium text-gray-700 dark:text-gray-300">{value}</span>
+                        <span className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                          {value}
+                        </span>
                       )}
                     />
                   </PieChart>
@@ -186,7 +225,7 @@ const Reports = () => {
                     Add some transactions to see your spending breakdown
                   </p>
                   <Link
-                    to="/add-transaction"
+                    to="/dashboard/add-transaction"
                     className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300"
                   >
                     <HiCurrencyDollar className="w-5 h-5" />
