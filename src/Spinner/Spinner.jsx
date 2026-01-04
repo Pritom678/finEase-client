@@ -1,13 +1,13 @@
 import React from "react";
 import Lottie from "lottie-react";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import animationData from "../assets/lottie.json";
 
 const Spinner = () => {
   return (
     <div className="flex justify-center items-center h-50">
-      <DotLottieReact
+      <Lottie
         className="min-h-full w-full"
-        src="https://lottie.host/ffc685b2-b9e3-411d-84ac-43e13cea66af/c8SpGD1EqR.lottie"
+        animationData={animationData}
         loop
         autoplay
       />

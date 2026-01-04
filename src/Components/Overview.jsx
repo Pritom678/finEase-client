@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"; // Fixed: useContext instead of use
+import React, { use, useEffect, useState } from "react"; 
 import {
   Wallet,
   ArrowUpRight,
@@ -11,7 +11,7 @@ import { AuthContext } from "../context/AuthContext";
 import Spinner from "../Spinner/Spinner";
 
 const Overview = () => {
-  const { user } = useContext(AuthContext); // Correct way to get user from context
+  const { user } = use(AuthContext); // Correct way to get user from context
   const [overview, setOverview] = useState(null);
   const [recentTransactions, setRecentTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,13 +33,13 @@ const Overview = () => {
 
         // Fetch overview summary
         const overviewRes = await fetch(
-          `http://localhost:3000/overview?email=${userEmail}`
+          `https://fin-ease-server-jet.vercel.app/overview?email=${userEmail}`
         );
         const overviewData = await overviewRes.json();
 
         // Fetch recent transactions (latest 5, sorted by date desc)
         const transactionsRes = await fetch(
-          `http://localhost:3000/transactions?email=${userEmail}&sortBy=date&order=desc`
+          `https://fin-ease-server-jet.vercel.app/transactions?email=${userEmail}&sortBy=date&order=desc`
         );
         const transactionsData = await transactionsRes.json();
 
