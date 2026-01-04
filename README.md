@@ -124,12 +124,12 @@ git clone https://github.com/Pritom678/finEase-client
 cd finEase
 npm install
 npm run dev
+````
 
----
 
 ### Backend
 
-```bash
+````bash
 git clone https://github.com/Pritom678/finEase-server
 cd finEase-server
 npm install
