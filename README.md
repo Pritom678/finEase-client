@@ -125,7 +125,10 @@ cd finEase
 npm install
 npm run dev
 
+---
+
 ### Backend
+
 ```bash
 git clone https://github.com/Pritom678/finEase-server
 cd finEase-server
